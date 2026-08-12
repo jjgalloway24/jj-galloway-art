@@ -16,7 +16,7 @@ const CATEGORIES: Category[] = [
 // thumbnail — drop the file in public/images/ first. Leave it out and the
 // card falls back to the placeholder gradient.
 const PROJECTS = [
-  { title: "Neon Bloom", tag: "Digital Painting", category: "oil", image: "" },
+  { title: "Cats and Dogs", tag: "Digital Painting", category: "illustration", image: "/images/cats-and-dogs.jpg" },
   { title: "Glass Orchard", tag: "Digital Painting", category: "oil", image: "" },
   { title: "Static Hymn", tag: "Animation", category: "oil", image: "" },
   { title: "Fractured Light", tag: "3D Render", category: "illustration", image: "" },
