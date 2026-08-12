@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 
 interface LightboxProps {
@@ -6,9 +7,29 @@ interface LightboxProps {
   description?: string;
   image?: string;
   onClose: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
-export default function Lightbox({ title, subtitle, description, image, onClose }: LightboxProps) {
+export default function Lightbox({
+  title,
+  subtitle,
+  description,
+  image,
+  onClose,
+  onPrev,
+  onNext,
+}: LightboxProps) {
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowLeft" && onPrev) onPrev();
+      else if (e.key === "ArrowRight" && onNext) onNext();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [onClose, onPrev, onNext]);
+
   return (
     <motion.div
       className="lightbox"
@@ -17,7 +38,32 @@ export default function Lightbox({ title, subtitle, description, image, onClose 
       exit={{ opacity: 0 }}
       onClick={onClose}
     >
+      {onPrev && (
+        <button
+          className="lightbox-nav lightbox-nav-prev"
+          onClick={(e) => {
+            e.stopPropagation();
+            onPrev();
+          }}
+          aria-label="Previous"
+        >
+          ‹
+        </button>
+      )}
+      {onNext && (
+        <button
+          className="lightbox-nav lightbox-nav-next"
+          onClick={(e) => {
+            e.stopPropagation();
+            onNext();
+          }}
+          aria-label="Next"
+        >
+          ›
+        </button>
+      )}
       <motion.div
+        key={image}
         className="lightbox-frame"
         initial={{ scale: 0.92, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}

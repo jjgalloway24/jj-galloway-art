@@ -414,6 +414,36 @@ body,
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.lightbox-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(10, 10, 12, 0.4);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #eceff1;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 21;
+  transition: background 0.15s ease;
+}
+
+.lightbox-nav:hover {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.lightbox-nav-prev {
+  left: 12px;
+}
+
+.lightbox-nav-next {
+  right: 12px;
+}
+
 .lightbox-image {
   width: 100%;
   min-height: 120px;

@@ -25,7 +25,7 @@ const PROJECTS = [
 
 export default function PortfolioContent() {
   const [category, setCategory] = useState<string | null>(null);
-  const [selected, setSelected] = useState<(typeof PROJECTS)[number] | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   if (category === null) {
     return (
@@ -42,6 +42,8 @@ export default function PortfolioContent() {
 
   const activeCategory = CATEGORIES.find((c) => c.id === category)!;
   const projects = PROJECTS.filter((p) => p.category === category);
+  const selected = selectedIndex !== null ? projects[selectedIndex] : null;
+  const showNav = projects.length > 1;
 
   return (
     <>
@@ -50,8 +52,8 @@ export default function PortfolioContent() {
       </button>
       <h2 className="section-subtitle">{activeCategory.label}</h2>
       <div className="grid-cards">
-        {projects.map((p) => (
-          <div className="card" key={p.title} onClick={() => setSelected(p)}>
+        {projects.map((p, i) => (
+          <div className="card" key={p.title} onClick={() => setSelectedIndex(i)}>
             <div className="card-thumb">
               {p.image && (
                 <img src={p.image} alt={p.title} onError={(e) => (e.currentTarget.style.display = "none")} />
@@ -65,12 +67,14 @@ export default function PortfolioContent() {
         ))}
       </div>
       <AnimatePresence>
-        {selected && (
+        {selected && selectedIndex !== null && (
           <Lightbox
             title={selected.title}
             subtitle={selected.tag}
             image={selected.image}
-            onClose={() => setSelected(null)}
+            onClose={() => setSelectedIndex(null)}
+            onPrev={showNav ? () => setSelectedIndex((selectedIndex - 1 + projects.length) % projects.length) : undefined}
+            onNext={showNav ? () => setSelectedIndex((selectedIndex + 1) % projects.length) : undefined}
           />
         )}
       </AnimatePresence>
