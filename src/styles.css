@@ -56,6 +56,20 @@ body,
   text-align: center;
 }
 
+.hint-touch {
+  display: none;
+}
+
+@media (hover: none) {
+  .hint-hover {
+    display: none;
+  }
+
+  .hint-touch {
+    display: inline;
+  }
+}
+
 /*
   The 3D folder mesh behind the canvas IS the backdrop once it fills the
   screen, and it can be light/bright — a fixed scrim behind the content
@@ -369,4 +383,51 @@ body,
   position: absolute;
   top: 14px;
   right: 14px;
+}
+
+@media (max-width: 640px) {
+  .overlay {
+    padding: 40px 20px 80px;
+  }
+
+  .overlay-header {
+    margin-bottom: 28px;
+  }
+
+  .overlay-header h1 {
+    font-size: 1.7rem;
+  }
+
+  .hint {
+    bottom: 16px;
+    padding: 0 16px;
+  }
+
+  .folder-cards {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+  }
+
+  .grid-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .lightbox {
+    padding: 16px;
+  }
+
+  .lightbox-caption {
+    padding: 16px 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .grid-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .cal-cell {
+    font-size: 0.6rem;
+  }
 }

@@ -64,7 +64,10 @@ export default function App() {
           <Scene />
         </div>
         <Overlay />
-        <div className="hint">Hover a drawer to preview · Click to open</div>
+        <div className="hint">
+          <span className="hint-hover">Hover a drawer to preview · Click to open</span>
+          <span className="hint-touch">Tap a drawer to open</span>
+        </div>
       </div>
     </CabinetProvider>
   );
