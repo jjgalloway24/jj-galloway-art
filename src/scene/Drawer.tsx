@@ -25,7 +25,7 @@ interface DrawerProps {
   config: DrawerConfig;
   model: THREE.Object3D;
   folderModel: THREE.Object3D;
-  actions: Record<string, THREE.AnimationAction | undefined>;
+  actions: Record<string, THREE.AnimationAction | null>;
   mixer: THREE.AnimationMixer;
 }
 
