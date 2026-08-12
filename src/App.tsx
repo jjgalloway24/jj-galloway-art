@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { CabinetProvider } from "./state/CabinetContext";
 import Scene from "./scene/Scene";
+import LoadingScreen from "./LoadingScreen";
 
 const Overlay = lazy(() => import("./Overlay"));
 
@@ -11,6 +12,7 @@ export default function App() {
         <div className="canvas-wrap">
           <Scene />
         </div>
+        <LoadingScreen />
         <Suspense fallback={null}>
           <Overlay />
         </Suspense>

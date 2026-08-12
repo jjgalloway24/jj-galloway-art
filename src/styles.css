@@ -44,6 +44,54 @@ body,
   inset: 0;
 }
 
+.loading-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: #14151a;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.loading-screen--done {
+  opacity: 0;
+}
+
+.loading-title {
+  font-family: "Oswald", "Segoe UI", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+  color: rgba(236, 239, 241, 0.85);
+}
+
+.loading-bar-track {
+  width: min(280px, 60vw);
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  background: #4d8fdd;
+  border-radius: 2px;
+  transition: width 0.2s ease;
+}
+
+.loading-percent {
+  font-family: "Oswald", "Segoe UI", system-ui, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: rgba(236, 239, 241, 0.5);
+}
+
 .hint {
   position: absolute;
   left: 50%;
