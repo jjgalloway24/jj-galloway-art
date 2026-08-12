@@ -1,0 +1,372 @@
+@font-face {
+  font-family: "Oswald";
+  src: url("/fonts/Oswald-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Oswald";
+  src: url("/fonts/Oswald-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Oswald";
+  src: url("/fonts/Oswald-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #14151a;
+  color: #eceff1;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+.app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.canvas-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: rgba(236, 239, 241, 0.55);
+  pointer-events: none;
+  text-align: center;
+}
+
+/*
+  The 3D folder mesh behind the canvas IS the backdrop once it fills the
+  screen, and it can be light/bright — a fixed scrim behind the content
+  (below) darkens it just enough for text/cards to read clearly without
+  hiding the folder texture entirely.
+*/
+.overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 64px max(48px, 8vw) 100px;
+  font-family: "Oswald", "Segoe UI", system-ui, sans-serif;
+}
+
+.overlay::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 35%,
+    rgba(8, 8, 12, 0.55) 0%,
+    rgba(8, 8, 12, 0.32) 45%,
+    rgba(8, 8, 12, 0.08) 78%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.overlay-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.overlay-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.overlay-header h1 {
+  font-size: 2.6rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+}
+
+.close-btn {
+  background: rgba(10, 10, 12, 0.35);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #eceff1;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 0.15s ease;
+}
+
+.close-btn:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.tab-accent {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 10px;
+}
+
+/*
+  Everything below (Portfolio/About/Archive + lightbox) is placeholder
+  content styling — swap freely, none of it is load-bearing for the
+  3D/interaction scaffolding above.
+*/
+
+/* Portfolio */
+.folder-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 640px;
+}
+
+.folder-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 36px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.folder-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.folder-card-icon {
+  width: 72px;
+  height: 56px;
+  border-radius: 4px 10px 4px 4px;
+  background: linear-gradient(135deg, #d9a441, #b9862f);
+}
+
+.folder-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: rgba(236, 239, 241, 0.7);
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-bottom: 20px;
+  padding: 0;
+  font-family: inherit;
+}
+
+.back-btn:hover {
+  color: #eceff1;
+}
+
+.section-subtitle {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.card-thumb {
+  height: 150px;
+  background: linear-gradient(135deg, #3a3f4b, #23262e);
+}
+
+.card-body {
+  padding: 10px 12px;
+}
+
+.card-body h3 {
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.card-body span {
+  font-size: 0.72rem;
+  color: rgba(236, 239, 241, 0.55);
+}
+
+/* About */
+.about-photo {
+  width: 100%;
+  height: 220px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #5fb87a55, #23262e);
+  margin-bottom: 24px;
+}
+
+.about p {
+  line-height: 1.6;
+  color: rgba(236, 239, 241, 0.85);
+  margin-bottom: 16px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.tag {
+  font-size: 0.75rem;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Archive calendar */
+.month-block {
+  margin-bottom: 32px;
+}
+
+.month-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: rgba(236, 239, 241, 0.85);
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.cal-dow {
+  font-size: 0.62rem;
+  text-align: center;
+  color: rgba(236, 239, 241, 0.4);
+  padding-bottom: 2px;
+}
+
+.cal-cell {
+  aspect-ratio: 1;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.68rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(236, 239, 241, 0.35);
+}
+
+.cal-cell.has-entry {
+  background: rgba(217, 164, 65, 0.28);
+  color: #eceff1;
+  cursor: pointer;
+  border: 1px solid rgba(217, 164, 65, 0.55);
+  font-weight: 600;
+}
+
+.cal-cell.has-entry:hover {
+  background: rgba(217, 164, 65, 0.5);
+}
+
+/* Lightbox — generic "zoom into one item" scaffold, reusable from any content component */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 6, 8, 0.82);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  padding: 40px;
+}
+
+.lightbox-frame {
+  position: relative;
+  width: min(900px, 90vw);
+  max-height: 85vh;
+  background: #1b1c21;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.lightbox-image {
+  width: 100%;
+  height: min(60vh, 560px);
+  background: linear-gradient(135deg, #3a3f4b, #23262e);
+}
+
+.lightbox-caption {
+  padding: 20px 24px;
+}
+
+.lightbox-caption h2 {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+}
+
+.lightbox-caption span {
+  font-size: 0.85rem;
+  color: rgba(236, 239, 241, 0.55);
+}
+
+.lightbox-caption p {
+  margin-top: 14px;
+  line-height: 1.6;
+  color: rgba(236, 239, 241, 0.85);
+  font-size: 0.95rem;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}

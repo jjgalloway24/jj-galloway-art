@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.claude/settings.local.json
+
+# raw Blender project files — huge/locked source assets, not part of the deployed site
+/3D/
+/3d filing test/
