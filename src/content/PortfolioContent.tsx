@@ -12,12 +12,15 @@ const CATEGORIES: Category[] = [
   { id: "illustration", label: "Illustration" },
 ];
 
+// add an `image` field (e.g. "/images/neon-bloom.jpg") to show a real
+// thumbnail — drop the file in public/images/ first. Leave it out and the
+// card falls back to the placeholder gradient.
 const PROJECTS = [
-  { title: "Neon Bloom", tag: "Digital Painting", category: "oil" },
-  { title: "Glass Orchard", tag: "Digital Painting", category: "oil" },
-  { title: "Static Hymn", tag: "Animation", category: "oil" },
-  { title: "Fractured Light", tag: "3D Render", category: "illustration" },
-  { title: "Echo Chamber", tag: "Installation", category: "illustration" },
+  { title: "Neon Bloom", tag: "Digital Painting", category: "oil", image: "" },
+  { title: "Glass Orchard", tag: "Digital Painting", category: "oil", image: "" },
+  { title: "Static Hymn", tag: "Animation", category: "oil", image: "" },
+  { title: "Fractured Light", tag: "3D Render", category: "illustration", image: "" },
+  { title: "Echo Chamber", tag: "Installation", category: "illustration", image: "" },
 ];
 
 export default function PortfolioContent() {
@@ -49,7 +52,11 @@ export default function PortfolioContent() {
       <div className="grid-cards">
         {projects.map((p) => (
           <div className="card" key={p.title} onClick={() => setSelected(p)}>
-            <div className="card-thumb" />
+            <div className="card-thumb">
+              {p.image && (
+                <img src={p.image} alt={p.title} onError={(e) => (e.currentTarget.style.display = "none")} />
+              )}
+            </div>
             <div className="card-body">
               <h3>{p.title}</h3>
               <span>{p.tag}</span>
@@ -62,6 +69,7 @@ export default function PortfolioContent() {
           <Lightbox
             title={selected.title}
             subtitle={selected.tag}
+            image={selected.image}
             onClose={() => setSelected(null)}
           />
         )}

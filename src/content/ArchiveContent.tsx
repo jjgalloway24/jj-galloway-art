@@ -6,8 +6,11 @@ interface ArchiveEntry {
   date: string;
   title: string;
   description: string;
+  image?: string;
 }
 
+// add an `image` field (e.g. "/images/ink-study-01.jpg") to show a real
+// photo of that day's work — drop the file in public/images/ first.
 const ENTRIES: ArchiveEntry[] = [
   {
     date: "2026-06-03",
@@ -128,6 +131,7 @@ export default function ArchiveContent() {
             title={selected.title}
             subtitle={formatDate(selected.date)}
             description={selected.description}
+            image={selected.image}
             onClose={() => setSelected(null)}
           />
         )}

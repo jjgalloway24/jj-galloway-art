@@ -1,7 +1,13 @@
+// Portrait/studio photo — drop a file at public/images/about-photo.jpg (or
+// change this path) to replace the placeholder gradient.
+const PHOTO_SRC = "/images/about-photo.jpg";
+
 export default function AboutContent() {
   return (
     <div className="about">
-      <div className="about-photo" />
+      <div className="about-photo">
+        <img src={PHOTO_SRC} alt="Portrait" onError={(e) => (e.currentTarget.style.display = "none")} />
+      </div>
       <p>
         Replace this with your bio — a couple of paragraphs about who you are, how you got
         into digital art, and what you're drawn to making.

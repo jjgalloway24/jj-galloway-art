@@ -4,10 +4,11 @@ interface LightboxProps {
   title: string;
   subtitle?: string;
   description?: string;
+  image?: string;
   onClose: () => void;
 }
 
-export default function Lightbox({ title, subtitle, description, onClose }: LightboxProps) {
+export default function Lightbox({ title, subtitle, description, image, onClose }: LightboxProps) {
   return (
     <motion.div
       className="lightbox"
@@ -24,7 +25,11 @@ export default function Lightbox({ title, subtitle, description, onClose }: Ligh
         transition={{ duration: 0.25, ease: "easeOut" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="lightbox-image" />
+        <div className="lightbox-image">
+          {image && (
+            <img src={image} alt={title} onError={(e) => (e.currentTarget.style.display = "none")} />
+          )}
+        </div>
         <div className="lightbox-caption">
           <h2>{title}</h2>
           {subtitle && <span>{subtitle}</span>}
