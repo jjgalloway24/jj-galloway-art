@@ -8,3 +8,9 @@ dist-ssr
 # raw Blender project files — huge/locked source assets, not part of the deployed site
 /3D/
 /3d filing test/
+
+# Local Netlify folder
+.netlify
+
+tsconfig.tsbuildinfo
+.claude/scheduled_tasks.lock
