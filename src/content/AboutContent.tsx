@@ -1,6 +1,4 @@
-// Portrait/studio photo — drop a file at public/images/about-photo.jpg (or
-// change this path) to replace the placeholder gradient.
-const PHOTO_SRC = "/images/about-photo.jpg";
+import { PHOTO_SRC } from "../data/about";
 
 export default function AboutContent() {
   return (

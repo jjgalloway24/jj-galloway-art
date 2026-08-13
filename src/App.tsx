@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { CabinetProvider } from "./state/CabinetContext";
 import Scene from "./scene/Scene";
 import LoadingScreen from "./LoadingScreen";
+import ImagePrefetch from "./ImagePrefetch";
 
 const Overlay = lazy(() => import("./Overlay"));
 
@@ -13,6 +14,7 @@ export default function App() {
           <Scene />
         </div>
         <LoadingScreen />
+        <ImagePrefetch />
         <Suspense fallback={null}>
           <Overlay />
         </Suspense>

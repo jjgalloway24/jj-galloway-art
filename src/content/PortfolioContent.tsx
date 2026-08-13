@@ -1,27 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import Lightbox from "../components/Lightbox";
-
-interface Category {
-  id: string;
-  label: string;
-}
-
-const CATEGORIES: Category[] = [
-  { id: "oil", label: "Oil Painting" },
-  { id: "illustration", label: "Illustration" },
-];
-
-// add an `image` field (e.g. "/images/neon-bloom.jpg") to show a real
-// thumbnail — drop the file in public/images/ first. Leave it out and the
-// card falls back to the placeholder gradient.
-const PROJECTS = [
-  { title: "Cats and Dogs", tag: "Digital Painting", category: "illustration", image: "/images/cats-and-dogs.jpg" },
-  { title: "Glass Orchard", tag: "Digital Painting", category: "oil", image: "" },
-  { title: "Static Hymn", tag: "Animation", category: "oil", image: "" },
-  { title: "Fractured Light", tag: "3D Render", category: "illustration", image: "" },
-  { title: "Echo Chamber", tag: "Installation", category: "illustration", image: "" },
-];
+import { CATEGORIES, PROJECTS } from "../data/portfolio";
 
 export default function PortfolioContent() {
   const [category, setCategory] = useState<string | null>(null);
