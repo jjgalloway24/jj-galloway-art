@@ -3,6 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, ContactShadows, Environment } from "@react-three/drei";
 import Cabinet from "./Cabinet";
 import CameraRig, { HOME_POSITION, MAX_HOME_DISTANCE } from "./CameraRig";
+import FlyBrain from "./FlyBrain";
 import { useCabinet } from "../state/CabinetContext";
 
 export default function Scene() {
@@ -30,6 +31,7 @@ export default function Scene() {
         <Cabinet />
         <Environment files="/hdri/sky.exr" background />
       </Suspense>
+      <FlyBrain />
       <ContactShadows position={[0, -0.02, 0]} opacity={0.5} scale={3} blur={2} far={1} />
       <CameraRig />
       {/* only mounted while closed so it never fights CameraRig's programmatic dolly */}
