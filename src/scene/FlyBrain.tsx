@@ -14,8 +14,12 @@ const LOOKAHEAD_SECONDS = 0.15;
 
 // FattooCreater's rig faces its own local +X with +Z up, not three.js's
 // forward/up convention — this corrective offset is applied on top of the
-// lookAt orientation every frame so the model actually points where it flies
-const MODEL_FORWARD_CORRECTION = new THREE.Euler(Math.PI / 2, 0, Math.PI / 2);
+// lookAt orientation every frame so the model actually points where it flies.
+// Composed as two steps: BASE aligns forward/up to three.js's convention,
+// then ROLL spins around that now-correct forward axis (legs were pointing
+// sideways instead of down — a pure roll fix, doesn't touch travel direction)
+const MODEL_BASE_CORRECTION = new THREE.Euler(Math.PI / 2, 0, Math.PI / 2);
+const MODEL_ROLL_CORRECTION_RADIANS = -Math.PI / 2;
 
 // raw geometry spans ~0.73 units (comparable to the whole cabinet) — scale
 // down to read as a small flying creature next to it, not another object
@@ -26,7 +30,14 @@ const scratchOffset = new THREE.Vector3();
 const scratchPos = new THREE.Vector3();
 const scratchLookAt = new THREE.Vector3();
 const scratchQuat = new THREE.Quaternion();
-const correctionQuat = new THREE.Quaternion().setFromEuler(MODEL_FORWARD_CORRECTION);
+const baseCorrectionQuat = new THREE.Quaternion().setFromEuler(MODEL_BASE_CORRECTION);
+const rollCorrectionQuat = new THREE.Quaternion().setFromAxisAngle(
+  new THREE.Vector3(0, 0, 1),
+  MODEL_ROLL_CORRECTION_RADIANS
+);
+// roll applied in the canonical (post-base-correction) frame, so it spins
+// around the now-forward-aligned axis rather than the model's raw local one
+const correctionQuat = rollCorrectionQuat.clone().multiply(baseCorrectionQuat);
 const lookMatrix = new THREE.Matrix4();
 
 function flightOffset(t: number, out: THREE.Vector3) {
