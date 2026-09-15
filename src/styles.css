@@ -422,7 +422,9 @@ body,
 
 .lightbox-frame {
   position: relative;
-  width: min(900px, 90vw);
+  width: fit-content;
+  max-width: 90vw;
+  min-width: min(420px, 90vw);
   margin: 0 auto;
   background: #1b1c21;
   overflow: hidden;
@@ -459,7 +461,7 @@ body,
 }
 
 .lightbox-image {
-  width: 100%;
+  min-width: 240px;
   min-height: 120px;
   background: linear-gradient(135deg, #3a3f4b, #23262e);
   display: flex;
@@ -467,15 +469,17 @@ body,
   justify-content: center;
 }
 
-/* full image/video, never cropped — scales down to fit, scrolls via
-   .lightbox if the frame ends up taller than the viewport */
+/* rendered at its own natural aspect ratio, only ever scaled down to
+   fit — the frame shrink-wraps to this size, so there's no letterboxing
+   from a mismatched fixed-width box. Scrolls via .lightbox if the frame
+   ends up taller than the viewport */
 .lightbox-image img,
 .lightbox-image video {
-  width: 100%;
-  height: auto;
-  max-height: 75vh;
-  object-fit: contain;
   display: block;
+  width: auto;
+  height: auto;
+  max-width: 90vw;
+  max-height: 75vh;
 }
 
 .lightbox-caption {
