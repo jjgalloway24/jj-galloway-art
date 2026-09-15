@@ -6,6 +6,7 @@ interface LightboxProps {
   subtitle?: string;
   description?: string;
   image?: string;
+  video?: string;
   onClose: () => void;
   onPrev?: () => void;
   onNext?: () => void;
@@ -16,6 +17,7 @@ export default function Lightbox({
   subtitle,
   description,
   image,
+  video,
   onClose,
   onPrev,
   onNext,
@@ -63,7 +65,7 @@ export default function Lightbox({
         </button>
       )}
       <motion.div
-        key={image}
+        key={video ?? image}
         className="lightbox-frame"
         initial={{ scale: 0.92, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -72,8 +74,12 @@ export default function Lightbox({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="lightbox-image">
-          {image && (
-            <img src={image} alt={title} onError={(e) => (e.currentTarget.style.display = "none")} />
+          {video ? (
+            <video src={video} poster={image} controls autoPlay loop muted playsInline />
+          ) : (
+            image && (
+              <img src={image} alt={title} onError={(e) => (e.currentTarget.style.display = "none")} />
+            )
           )}
         </div>
         <div className="lightbox-caption">

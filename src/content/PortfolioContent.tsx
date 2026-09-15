@@ -35,9 +35,12 @@ export default function PortfolioContent() {
         {projects.map((p, i) => (
           <div className="card" key={p.title} onClick={() => setSelectedIndex(i)}>
             <div className="card-thumb">
-              {p.image && (
+              {p.image ? (
                 <img src={p.image} alt={p.title} onError={(e) => (e.currentTarget.style.display = "none")} />
+              ) : (
+                p.video && <video src={p.video} muted playsInline preload="metadata" />
               )}
+              {p.video && <span className="play-badge" aria-hidden="true" />}
             </div>
             <div className="card-body">
               <h3>{p.title}</h3>
@@ -52,6 +55,7 @@ export default function PortfolioContent() {
             title={selected.title}
             subtitle={selected.tag}
             image={selected.image}
+            video={selected.video}
             onClose={() => setSelectedIndex(null)}
             onPrev={showNav ? () => setSelectedIndex((selectedIndex - 1 + projects.length) % projects.length) : undefined}
             onNext={showNav ? () => setSelectedIndex((selectedIndex + 1) % projects.length) : undefined}
