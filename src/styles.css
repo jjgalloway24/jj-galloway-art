@@ -258,12 +258,14 @@ body,
 }
 
 .grid-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
 }
 
 .card {
+  flex: 0 1 calc(33.333% - 14px);
   background: rgba(255, 255, 255, 0.05);
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease;
@@ -526,8 +528,11 @@ body,
   }
 
   .grid-cards {
-    grid-template-columns: repeat(2, 1fr);
     gap: 14px;
+  }
+
+  .card {
+    flex-basis: calc(50% - 7px);
   }
 
   .lightbox {
@@ -540,8 +545,8 @@ body,
 }
 
 @media (max-width: 420px) {
-  .grid-cards {
-    grid-template-columns: 1fr;
+  .card {
+    flex-basis: 100%;
   }
 
   .cal-cell {
