@@ -203,13 +203,14 @@ body,
 
 /* Portfolio */
 .folder-cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 24px;
-  max-width: 640px;
 }
 
 .folder-card {
+  flex: 0 1 calc(25% - 18px);
   background: rgba(255, 255, 255, 0.05);
   padding: 36px 20px;
   display: flex;
@@ -504,6 +505,12 @@ body,
   right: 14px;
 }
 
+@media (max-width: 900px) {
+  .folder-card {
+    flex-basis: calc(50% - 12px);
+  }
+}
+
 @media (max-width: 640px) {
   .overlay {
     padding: 40px 20px 80px;
@@ -522,8 +529,8 @@ body,
     padding: 0 16px;
   }
 
-  .folder-cards {
-    grid-template-columns: 1fr;
+  .folder-card {
+    flex-basis: 100%;
     max-width: 320px;
   }
 

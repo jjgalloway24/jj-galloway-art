@@ -8,6 +8,7 @@ export const CATEGORIES: Category[] = [
   { id: "illustration", label: "Illustration" },
   { id: "drawings", label: "Drawings" },
   { id: "3d", label: "3D" },
+  { id: "stick-death-drop", label: "Stick: Death Drop" },
 ];
 
 export interface Project {
@@ -64,4 +65,17 @@ export const PROJECTS: Project[] = [
     category: "3d",
     video: "/videos/field-walker-turntable.mp4",
   },
+
+  // Stick: Death Drop (comic)
+  { title: "Page 1", tag: "Stick: Death Drop", category: "stick-death-drop", image: "/images/stick-page-01.jpg" },
+  { title: "Page 2", tag: "Stick: Death Drop", category: "stick-death-drop", image: "/images/stick-page-02.jpg" },
+  { title: "Page 3", tag: "Stick: Death Drop", category: "stick-death-drop", image: "/images/stick-page-03.jpg" },
+  { title: "Page 4", tag: "Stick: Death Drop", category: "stick-death-drop", image: "/images/stick-page-04.jpg" },
+  { title: "Page 5", tag: "Stick: Death Drop", category: "stick-death-drop", image: "/images/stick-page-05.jpg" },
+  { title: "Page 6", tag: "Stick: Death Drop", category: "stick-death-drop", image: "/images/stick-page-06.jpg" },
+  { title: "Page 7", tag: "Stick: Death Drop", category: "stick-death-drop", image: "/images/stick-page-07.jpg" },
+  { title: "Page 8", tag: "Stick: Death Drop", category: "stick-death-drop", image: "/images/stick-page-08.jpg" },
+  { title: "Page 9", tag: "Stick: Death Drop", category: "stick-death-drop", image: "/images/stick-page-09.jpg" },
+  { title: "Page 10", tag: "Stick: Death Drop", category: "stick-death-drop", image: "/images/stick-page-10.jpg" },
+  { title: "Page 11", tag: "Stick: Death Drop", category: "stick-death-drop", image: "/images/stick-page-11.jpg" },
 ];
