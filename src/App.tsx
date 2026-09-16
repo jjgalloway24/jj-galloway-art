@@ -1,24 +1,24 @@
 import { lazy, Suspense } from "react";
 import { CabinetProvider } from "./state/CabinetContext";
-import { FlyGameProvider } from "./state/FlyGameContext";
+import { DuckGameProvider } from "./state/DuckGameContext";
 import Scene from "./scene/Scene";
 import LoadingScreen from "./LoadingScreen";
 import ImagePrefetch from "./ImagePrefetch";
-import FlyCounter from "./components/FlyCounter";
+import DuckCounter from "./components/DuckCounter";
 
 const Overlay = lazy(() => import("./Overlay"));
 
 export default function App() {
   return (
     <CabinetProvider>
-      <FlyGameProvider>
+      <DuckGameProvider>
         <div className="app">
           <div className="canvas-wrap">
             <Scene />
           </div>
           <LoadingScreen />
           <ImagePrefetch />
-          <FlyCounter />
+          <DuckCounter />
           <Suspense fallback={null}>
             <Overlay />
           </Suspense>
@@ -27,7 +27,7 @@ export default function App() {
             <span className="hint-touch">Tap a drawer to open</span>
           </div>
         </div>
-      </FlyGameProvider>
+      </DuckGameProvider>
     </CabinetProvider>
   );
 }

@@ -104,8 +104,8 @@ body,
   text-align: center;
 }
 
-/* digital-alarm-clock styled kill counter for the fly-hunting easter egg */
-.fly-counter {
+/* digital-alarm-clock styled counter for the duck-hunt easter egg */
+.duck-counter {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -121,7 +121,7 @@ body,
   pointer-events: none;
 }
 
-.fly-counter-label {
+.duck-counter-label {
   font-family: "Oswald", "Segoe UI", system-ui, sans-serif;
   font-size: 0.62rem;
   font-weight: 600;
@@ -130,7 +130,7 @@ body,
   color: rgba(236, 239, 241, 0.55);
 }
 
-.fly-counter-display {
+.duck-counter-display {
   font-family: "Courier New", Consolas, monospace;
   font-weight: 700;
   font-size: 1.9rem;
@@ -144,13 +144,13 @@ body,
 }
 
 @media (max-width: 640px) {
-  .fly-counter {
+  .duck-counter {
     top: 14px;
     right: 14px;
     padding: 8px 12px 10px;
   }
 
-  .fly-counter-display {
+  .duck-counter-display {
     font-size: 1.5rem;
   }
 }
