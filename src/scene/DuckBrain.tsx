@@ -1,36 +1,51 @@
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useLoader, type ThreeEvent } from "@react-three/fiber";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
+import { useAnimations } from "@react-three/drei";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
+import { clone as cloneSkinned } from "three/examples/jsm/utils/SkeletonUtils.js";
 import * as THREE from "three";
 import { useDuckGame } from "../state/DuckGameContext";
 
-const MODEL_URL = "/models/duck.obj";
+const MODEL_URL = "/models/duck.fbx";
+const FLY_CLIP_NAME = "Duck|Fly_F_IP";
 
-// No texture was supplied with the model (the source .fbx points at a local
-// file path on the original creator's machine), so it's given a flat
-// mallard-brown finish instead of going untextured/white.
-const DUCK_MATERIAL = new THREE.MeshStandardMaterial({ color: "#6f5934", roughness: 0.85, metalness: 0.04 });
+const textureLoader = new THREE.TextureLoader();
+const albedoMap = textureLoader.load("/models/textures/duck-albedo.jpg");
+albedoMap.colorSpace = THREE.SRGBColorSpace;
+const normalMap = textureLoader.load("/models/textures/duck-normal.png");
+const roughnessMap = textureLoader.load("/models/textures/duck-roughness.jpg");
+const metalnessMap = textureLoader.load("/models/textures/duck-metallic.jpg");
+const aoMap = textureLoader.load("/models/textures/duck-ao.jpg");
+
+const DUCK_MATERIAL = new THREE.MeshStandardMaterial({
+  map: albedoMap,
+  normalMap,
+  roughnessMap,
+  metalnessMap,
+  aoMap,
+  // MeshStandardMaterial multiplies each map by its scalar counterpart —
+  // metalness defaults to 0, which would zero out metalnessMap entirely
+  roughness: 1,
+  metalness: 1,
+});
 
 // Duck Hunt vibe: a wide, unhurried sweep across the sky rather than the
 // fly's fast erratic buzz — slower frequencies, bigger horizontal radius.
 const RADIUS = new THREE.Vector3(1.15, 0.45, 0.55);
 const LOOKAHEAD_SECONDS = 0.2;
 
-// Raw OBJ is authored in a wings-spread gliding pose, ~69 x 26.7 x 40.4
-// units (its export comment says cm), sitting right-side up with local +Y
-// already up and the beak pointing along local +X — confirmed by rendering
-// it at identity rotation. Three.js canonical forward is -Z, and (matching
-// the fly model's identical +X-forward convention) +90° around Y maps
-// local +X to -Z exactly: R_y(90)*(1,0,0) = (0,0,-1).
+// Confirmed by rendering at identity rotation: this model sits right-side
+// up with the beak pointing along local +X, the same convention as the fly
+// model and the earlier plain-OBJ duck export. +90° around Y maps local +X
+// to Three.js's canonical forward (-Z): R_y(90)*(1,0,0) = (0,0,-1).
 const MODEL_BASE_CORRECTION = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2);
-// scales the ~69-unit wingspan down to a modest, clearly-visible-but-not-
-// overwhelming size next to the cabinet
-const MODEL_SCALE = 0.0065;
+// FBXLoader already normalizes the FBX's internal unit scale to meters, so
+// the loaded model comes in at a realistic ~0.3 x 0.6 x 0.76 (roughly a
+// real duck's size) — only a modest scale-up is needed for visibility.
+const MODEL_SCALE = 0.45;
 
 // duck-hunt-style hit reaction: a brief upward kick, then gravity takes
 // over while it tumbles, until it's fallen out of view — then it respawns.
-// Slower tumble than the fly's since a bigger body reads better rolling
-// more slowly.
 const FALL_GRAVITY = 3.6;
 const HIT_KICK_UP_SPEED = 0.55;
 const TUMBLE_SPEED = 5;
@@ -54,16 +69,27 @@ interface DuckBrainProps {
 export default function DuckBrain({ center, phaseOffset }: DuckBrainProps) {
   const group = useRef<THREE.Group>(null!);
   const { registerDuck } = useDuckGame();
-  // static (unskinned) mesh — a plain deep clone per instance is enough,
-  // no shared-skeleton concerns the way the old rigged fly model had
-  const obj = useLoader(OBJLoader, MODEL_URL);
+  const fbx = useLoader(FBXLoader, MODEL_URL);
   const instanceObj = useMemo(() => {
-    const cloned = obj.clone(true);
+    const cloned = cloneSkinned(fbx);
     cloned.traverse((child) => {
-      if (child instanceof THREE.Mesh) child.material = DUCK_MATERIAL;
+      if (child instanceof THREE.Mesh) {
+        // aoMap requires a second UV channel — this model only ships one,
+        // so reuse it rather than leaving the AO map inert
+        const uv = child.geometry.attributes.uv;
+        if (uv && !child.geometry.attributes.uv2) child.geometry.setAttribute("uv2", uv);
+        child.material = DUCK_MATERIAL;
+        child.castShadow = true;
+      }
     });
     return cloned;
-  }, [obj]);
+  }, [fbx]);
+  const { actions } = useAnimations(fbx.animations, group);
+
+  useEffect(() => {
+    const clip = actions[FLY_CLIP_NAME] ?? Object.values(actions)[0] ?? null;
+    clip?.reset().play();
+  }, [actions]);
 
   const flightState = useRef<FlightState>("alive");
   const currentTime = useRef(0);
@@ -92,10 +118,8 @@ export default function DuckBrain({ center, phaseOffset }: DuckBrainProps) {
 
     flightState.current = "falling";
     registerDuck();
+    Object.values(actions).forEach((a) => a?.stop());
 
-    // keep whatever horizontal momentum it had (same tangent used for
-    // in-flight orientation) plus a little upward kick, then let gravity
-    // take over from there
     const t = currentTime.current;
     flightOffset(t, scratchPos.current);
     flightOffset(t + LOOKAHEAD_SECONDS, scratchLookAt.current);
@@ -145,6 +169,8 @@ export default function DuckBrain({ center, phaseOffset }: DuckBrainProps) {
     if (t >= respawnAt.current) {
       flightState.current = "alive";
       group.current.visible = true;
+      const clip = actions[FLY_CLIP_NAME] ?? Object.values(actions)[0] ?? null;
+      clip?.reset().play();
     }
   });
 
@@ -161,4 +187,4 @@ export default function DuckBrain({ center, phaseOffset }: DuckBrainProps) {
   );
 }
 
-useLoader.preload(OBJLoader, MODEL_URL);
+useLoader.preload(FBXLoader, MODEL_URL);
