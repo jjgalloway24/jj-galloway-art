@@ -166,7 +166,7 @@ export default function Drawer({ config, model, folderModel, actions, mixer }: D
 
   const handlePointerOver = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
-    if (!isOtherOpen) setHovered(config.id);
+    if (!config.disabled && !isOtherOpen) setHovered(config.id);
   };
   const handlePointerOut = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
@@ -174,7 +174,7 @@ export default function Drawer({ config, model, folderModel, actions, mixer }: D
   };
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    if (!isOtherOpen) toggleOpen(config.id);
+    if (!config.disabled && !isOtherOpen) toggleOpen(config.id);
   };
 
   return (

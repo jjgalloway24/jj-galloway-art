@@ -10,6 +10,10 @@ export interface DrawerConfig {
   tabColor: string;
   // approximate world Y of this drawer, for camera framing only (CameraRig).
   approxY: number;
+  // when true, the drawer/nav-word ignore hover and click entirely and show
+  // an "Out of Order" sign instead — a temporary way to pull a section
+  // without removing its data/content components
+  disabled?: boolean;
 }
 
 // nodeName/folderNodeName/drawerClip/folderClip must match the object and
@@ -44,5 +48,6 @@ export const DRAWERS: DrawerConfig[] = [
     folderClip: "Archive_folder_Open",
     tabColor: "#d9a441",
     approxY: 0.214,
+    disabled: true,
   },
 ];

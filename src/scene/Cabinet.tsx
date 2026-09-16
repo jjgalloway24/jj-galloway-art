@@ -91,7 +91,7 @@ export default function Cabinet() {
       })}
       {DRAWERS.map((d) => {
         const wordNode = navWordNodes.get(d.id);
-        return wordNode ? <NavWord key={d.id} node={wordNode} drawerId={d.id} /> : null;
+        return wordNode ? <NavWord key={d.id} node={wordNode} drawerId={d.id} disabled={d.disabled} /> : null;
       })}
     </group>
   );

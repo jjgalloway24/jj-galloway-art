@@ -1,4 +1,4 @@
-import { PHOTO_SRC } from "../data/about";
+import { PHOTO_SRC, RESUME_SRC, BIO_PARAGRAPHS, TAGS } from "../data/about";
 
 export default function AboutContent() {
   return (
@@ -6,18 +6,18 @@ export default function AboutContent() {
       <div className="about-photo">
         <img src={PHOTO_SRC} alt="Portrait" onError={(e) => (e.currentTarget.style.display = "none")} />
       </div>
-      <p>
-        Replace this with your bio — a couple of paragraphs about who you are, how you got
-        into digital art, and what you're drawn to making.
-      </p>
-      <p>
-        Mention your process here: Blender, tablet, traditional media, whatever's part of
-        your story.
-      </p>
+      {BIO_PARAGRAPHS.map((paragraph, i) => (
+        <p key={i}>{paragraph}</p>
+      ))}
+      <a className="resume-link" href={RESUME_SRC} target="_blank" rel="noopener noreferrer">
+        View Resume (PDF)
+      </a>
       <div className="tags">
-        <span className="tag">Blender</span>
-        <span className="tag">3D Animation</span>
-        <span className="tag">Digital Painting</span>
+        {TAGS.map((tag) => (
+          <span className="tag" key={tag}>
+            {tag}
+          </span>
+        ))}
       </div>
     </div>
   );

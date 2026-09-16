@@ -346,6 +346,22 @@ body,
   margin-bottom: 16px;
 }
 
+.resume-link {
+  display: inline-block;
+  margin: 4px 0 20px;
+  padding: 10px 18px;
+  background: var(--page-accent, #5fb87a);
+  color: #14151a;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.resume-link:hover {
+  opacity: 0.85;
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
