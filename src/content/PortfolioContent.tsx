@@ -36,7 +36,12 @@ export default function PortfolioContent() {
           <div className="card" key={p.title} onClick={() => setSelectedIndex(i)}>
             <div className="card-thumb">
               {p.image ? (
-                <img src={p.image} alt={p.title} onError={(e) => (e.currentTarget.style.display = "none")} />
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  decoding="sync"
+                  onError={(e) => (e.currentTarget.style.display = "none")}
+                />
               ) : (
                 p.video && <video src={p.video} muted playsInline preload="metadata" />
               )}

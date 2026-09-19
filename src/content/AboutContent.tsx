@@ -4,7 +4,12 @@ export default function AboutContent() {
   return (
     <div className="about">
       <div className="about-photo">
-        <img src={PHOTO_SRC} alt="Portrait" onError={(e) => (e.currentTarget.style.display = "none")} />
+        <img
+          src={PHOTO_SRC}
+          alt="Portrait"
+          decoding="sync"
+          onError={(e) => (e.currentTarget.style.display = "none")}
+        />
       </div>
       {BIO_PARAGRAPHS.map((paragraph, i) => (
         <p key={i}>{paragraph}</p>

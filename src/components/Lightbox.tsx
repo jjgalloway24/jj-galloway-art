@@ -78,7 +78,12 @@ export default function Lightbox({
             <video src={video} poster={image} controls autoPlay loop muted playsInline />
           ) : (
             image && (
-              <img src={image} alt={title} onError={(e) => (e.currentTarget.style.display = "none")} />
+              <img
+                src={image}
+                alt={title}
+                decoding="sync"
+                onError={(e) => (e.currentTarget.style.display = "none")}
+              />
             )
           )}
         </div>

@@ -9,6 +9,13 @@ import { ENTRIES } from "./data/archive";
 // the 3D scene's own model/HDRI load — fetchPriority "low" lets the
 // browser still favor those over this large batch of images without us
 // having to delay the start and lose that time entirely.
+//
+// Fetching the bytes isn't enough on its own: a cached-but-undecoded JPEG
+// still has to be decoded into a paintable bitmap the first time an <img>
+// actually renders it, and that decode is what shows up as a flash of the
+// card's gradient placeholder before the real image pops in. img.decode()
+// forces that decode to happen now instead, so the browser's decoded-image
+// cache is already warm by the time the real <img> mounts.
 export default function ImagePrefetch() {
   const prefetched = useRef(false);
 
@@ -26,6 +33,7 @@ export default function ImagePrefetch() {
       const img = new Image();
       img.fetchPriority = "low";
       img.src = src;
+      img.decode().catch(() => {});
     });
   }, []);
 
